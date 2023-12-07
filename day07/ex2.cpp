@@ -52,7 +52,7 @@ e_hand find_single_hand(std::string str)
 
 e_hand find_hand(const std::string & str)
 {
-	std::string set = "ABCE98765432";
+	std::string set = "GFEC98765432";
 
 
 	e_hand best = high_card;
