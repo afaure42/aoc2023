@@ -67,7 +67,6 @@ e_hand find_hand(const std::string & str)
 	return best;
 }
 
-
 int comp_cards(const std::string & s1, const std::string & s2)
 {
 	for(int i = 0; i < 5; i++)
@@ -78,15 +77,12 @@ int comp_cards(const std::string & s1, const std::string & s2)
 				return (-1);
 			else if (!isdigit(s1[i]) && isdigit(s2[i]))
 				return (1);
-			else if (isdigit(s1[i]) && isdigit(s2[i]))
-				return (s1[i] - s2[i]);
 			else
-				return s2[i] - s1[i];
+				return (s1[i] - s2[i]);
 		}
 	}
 	return 0;
 }
-
 
 int main(int argc, char *argv[])
 {
@@ -110,16 +106,18 @@ int main(int argc, char *argv[])
 	std::vector<std::pair<std::string, unsigned long long>> hands;
 	while(std::getline(in_file, line, '\n'))
 	{
-		for(auto & iter : line) //renaming heads for easier comparisons later
+		for(auto & iter : line)
 		{
-			if (iter == 'K')
-				iter = 'B';
+			if (iter == 'A') //replacing heads for easier comparisons
+				iter = 'G';
+			else if (iter == 'K')
+				iter = 'F';
 			else if (iter == 'Q')
-				iter = 'C';
-			else if (iter == 'J')
+				iter = 'E';
+			else if (iter == 'J') //now joker will be the weakest card when comparing
 				iter = '1';
 			else if (iter == 'T')
-				iter = 'E';
+				iter = 'C';
 		}
 		hands.push_back(std::make_pair(line.substr(0, 5), std::stoull(line.substr(5))));
 	}

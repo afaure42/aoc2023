@@ -60,10 +60,8 @@ int comp_cards(const std::string & s1, const std::string & s2)
 				return (-1);
 			else if (!isdigit(s1[i]) && isdigit(s2[i]))
 				return (1);
-			else if (isdigit(s1[i]) && isdigit(s2[i]))
-				return (s1[i] - s2[i]);
 			else
-				return s2[i] - s1[i];
+				return (s1[i] - s2[i]);
 		}
 	}
 	return 0;
@@ -94,14 +92,16 @@ int main(int argc, char *argv[])
 	{
 		for(auto & iter : line)
 		{
-			if (iter == 'K')
-				iter = 'B';
+			if (iter == 'A') //replacing heads for easier comparisons
+				iter = 'G';
+			else if (iter == 'K')
+				iter = 'F';
 			else if (iter == 'Q')
-				iter = 'C';
+				iter = 'E';
 			else if (iter == 'J')
 				iter = 'D';
 			else if (iter == 'T')
-				iter = 'E';
+				iter = 'C';
 		}
 		hands.push_back(std::make_pair(line.substr(0, 5), std::stoull(line.substr(5))));
 	}
