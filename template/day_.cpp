@@ -1,6 +1,10 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
+#include <algorithm>
+#include <map>
+#include <set>
 
 
 int main(int argc, char *argv[])
