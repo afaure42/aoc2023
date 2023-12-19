@@ -4,10 +4,10 @@
 #include <unordered_map>
 #include <list>
 #include <tuple>
+#include "grid.hpp"
+#define CACHE_SIZE 200
 
-#define CACHE_SIZE 10000
-
-typedef std::pair<std::vector<std::string>, int> key_type;
+typedef grid key_type;
 
 struct hash_vect
 {
@@ -26,24 +26,35 @@ struct hash_vect
 	}
 };
 
+
+
 template<>
 struct std::hash<key_type>
 {
 	size_t operator()(key_type const& key) const
 	{
-		auto x = hash_vect()(key.first);
+		size_t seed = grid::height;
+		for(size_t i = 0; i < grid::height; i++)
+		{
+			auto x = std::hash<std::string_view>()(std::string_view(key.array[i]));
+			x = ((x >> 16) ^ x) * 0x45d9f3b;
+			x = ((x >> 16) ^ x) * 0x45d9f3b;
+			x = (x >> 16) ^ x;
+			seed ^= x + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+		}
 		// x = ((x >> 16) ^ x) * 0x45d9f3b;
 		// x = ((x >> 16) ^ x) * 0x45d9f3b;
 		// x = (x >> 16) ^ x;
-		auto y = key.second;
-		y = ((y >> 16) ^ y) * 0x45d9f3b;
-		y = ((y >> 16) ^ y) * 0x45d9f3b;
-		y = (y >> 16) ^ y;
-		return x ^ y;
+		// auto y = key.second;
+		// y = ((y >> 16) ^ y) * 0x45d9f3b;
+		// y = ((y >> 16) ^ y) * 0x45d9f3b;
+		// y = (y >> 16) ^ y;
+		// return x ^ y;
+		return seed;
 	}
 };
 
-typedef std::vector<std::string> cached_type;
+typedef grid cached_type;
 typedef std::pair<key_type, cached_type> value_type;
 typedef std::list<value_type>::iterator list_iter;
 typedef std::unordered_map<key_type, list_iter>::iterator map_iter;
